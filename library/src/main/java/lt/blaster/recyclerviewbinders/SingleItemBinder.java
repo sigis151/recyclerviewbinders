@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class SingleItemBinder<T> implements ItemBinder<T, ItemViewHolder<T>> {
-
     private final View view;
 
     public SingleItemBinder(@NonNull ViewGroup parent, @LayoutRes int layoutId) {

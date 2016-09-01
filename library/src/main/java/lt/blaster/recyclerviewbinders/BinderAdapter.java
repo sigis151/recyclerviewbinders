@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 public abstract class BinderAdapter extends RecyclerView.Adapter<ItemViewHolder> {
-
     @NonNull
     @Override
     public final ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,5 +56,4 @@ public abstract class BinderAdapter extends RecyclerView.Adapter<ItemViewHolder>
 
     public abstract void notifyBinderItemRangeRemoved(@NonNull ItemBinder binder, int positionStart,
                                                       int itemCount);
-
 }

@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public abstract class MapBinderAdapter extends BinderAdapter {
-
     public static final int POSITION_FIRST = 0;
     private final ConcurrentMap<Integer, ItemBinder> binderMap = new ConcurrentHashMap<>();
 

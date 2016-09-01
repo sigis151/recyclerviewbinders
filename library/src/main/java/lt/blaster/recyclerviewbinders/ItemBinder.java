@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 public interface ItemBinder<T, V extends ItemViewHolder<T>> {
-
     @NonNull
     V newViewHolder(@NonNull ViewGroup parent);
 

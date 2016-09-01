@@ -13,7 +13,6 @@ import lt.blaster.recyclerviewbinders.ListBinderAdapter;
 import lt.blaster.recyclerviewbinders.SingleItemBinder;
 
 public class MainActivity extends AppCompatActivity implements ItemClickListener<String> {
-
     private final List<String> firstBinderItems
             = Arrays.asList("binder 1 : item 1", "binder 1 : item 2");
     private final List<String> secondBinderItems

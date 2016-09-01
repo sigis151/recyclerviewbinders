@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ListBinderAdapter extends BinderAdapter {
-
     public static final int POSITION_FIRST = 0;
     private final List<ItemBinder> binderList = new ArrayList<>();
 
