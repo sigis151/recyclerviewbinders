@@ -1,5 +1,7 @@
 package lt.blaster.recyclerviewbinders;
 
+import android.support.annotation.NonNull;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -21,7 +23,7 @@ public abstract class MapBinderAdapter extends BinderAdapter {
     @Override
     public abstract int getItemViewType(int adapterPosition);
 
-    public final int getBinderViewType(ItemBinder binder) {
+    public final int getBinderViewType(@NonNull ItemBinder binder) {
         for (Map.Entry<Integer, ItemBinder> entry : binderMap.entrySet()) {
             if (entry.getValue().equals(binder)) {
                 return entry.getKey();
@@ -37,10 +39,11 @@ public abstract class MapBinderAdapter extends BinderAdapter {
         return itemBinder.getItemId(getBinderItemPosition(adapterPosition));
     }
 
-    public final void putBinder(int type, ItemBinder binder) {
+    public final void putBinder(int type, @NonNull ItemBinder binder) {
         binderMap.put(type, binder);
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public final <T extends ItemBinder> T getDataBinder(int viewType) {
@@ -48,7 +51,7 @@ public abstract class MapBinderAdapter extends BinderAdapter {
     }
 
     @Override
-    public final int getAdapterItemPosition(ItemBinder binder, int binderPosition) {
+    public final int getAdapterItemPosition(@NonNull ItemBinder binder, int binderPosition) {
         int position = binderPosition;
         int targetViewType = getBinderViewType(binder);
         int itemCount = getItemCount();
@@ -79,7 +82,7 @@ public abstract class MapBinderAdapter extends BinderAdapter {
     }
 
     @Override
-    public final void notifyBinderItemRangeChanged(ItemBinder binder, int positionStart,
+    public final void notifyBinderItemRangeChanged(@NonNull ItemBinder binder, int positionStart,
                                                    int itemCount) {
         for (int i = positionStart; i < itemCount; i++) {
             notifyItemChanged(getAdapterItemPosition(binder, i));
@@ -87,7 +90,7 @@ public abstract class MapBinderAdapter extends BinderAdapter {
     }
 
     @Override
-    public final void notifyBinderItemRangeInserted(ItemBinder binder, int positionStart,
+    public final void notifyBinderItemRangeInserted(@NonNull ItemBinder binder, int positionStart,
                                                     int itemCount) {
         for (int i = positionStart; i < itemCount; i++) {
             notifyItemInserted(getAdapterItemPosition(binder, i));
@@ -95,13 +98,14 @@ public abstract class MapBinderAdapter extends BinderAdapter {
     }
 
     @Override
-    public final void notifyBinderItemRangeRemoved(ItemBinder binder, int positionStart,
+    public final void notifyBinderItemRangeRemoved(@NonNull ItemBinder binder, int positionStart,
                                                    int itemCount) {
         for (int i = positionStart; i < itemCount; i++) {
             notifyItemRemoved(getAdapterItemPosition(binder, i));
         }
     }
 
+    @NonNull
     public final Map<Integer, ItemBinder> getBinderMap() {
         return binderMap;
     }

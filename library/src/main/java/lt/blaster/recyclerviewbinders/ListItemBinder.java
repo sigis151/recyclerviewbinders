@@ -32,6 +32,7 @@ public abstract class ListItemBinder<T, V extends ItemViewHolder<T>>
         return items.size();
     }
 
+    @NonNull
     public final T getItem(int position) {
         return items.get(position);
     }
@@ -47,7 +48,7 @@ public abstract class ListItemBinder<T, V extends ItemViewHolder<T>>
         adapter.notifyDataSetChanged();
     }
 
-    public final void addItem(int position, T item) {
+    public final void addItem(int position, @Nullable T item) {
         items.add(position, item);
         adapter.notifyBinderItemInserted(this, position);
     }
