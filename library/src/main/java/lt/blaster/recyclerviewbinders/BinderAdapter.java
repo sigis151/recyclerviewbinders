@@ -6,10 +6,6 @@ import android.view.ViewGroup;
 
 public abstract class BinderAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
-    public BinderAdapter() {
-        super();
-    }
-
     @NonNull
     @Override
     public final ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
