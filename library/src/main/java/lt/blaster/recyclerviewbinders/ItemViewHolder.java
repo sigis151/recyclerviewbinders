@@ -21,7 +21,6 @@ public class ItemViewHolder<T> extends RecyclerView.ViewHolder {
         //Empty
     }
 
-    @NonNull
     public final T getItem() {
         return item;
     }
