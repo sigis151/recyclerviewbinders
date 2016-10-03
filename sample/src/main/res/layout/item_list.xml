@@ -7,4 +7,5 @@
     android:gravity="center_vertical"
     android:padding="16dp"
     android:textAppearance="?android:textAppearanceListItem"
+    tools:ignore="Overdraw"
     tools:showIn="@layout/activity_main" />
