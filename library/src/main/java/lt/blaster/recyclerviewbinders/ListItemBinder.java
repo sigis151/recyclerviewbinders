@@ -10,7 +10,6 @@ import java.util.List;
 
 public abstract class ListItemBinder<T, V extends ItemViewHolder<T>>
         implements ItemBinder<T, V> {
-
     protected final List<T> items = new ArrayList<>();
     private final BinderAdapter adapter;
 
@@ -79,5 +78,4 @@ public abstract class ListItemBinder<T, V extends ItemViewHolder<T>>
         }
         adapter.notifyBinderItemRangeRemoved(this, positionStart, itemCount);
     }
-
 }

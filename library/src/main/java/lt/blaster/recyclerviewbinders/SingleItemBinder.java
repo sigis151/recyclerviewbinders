@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class SingleItemBinder<T> implements ItemBinder<T, ItemViewHolder<T>> {
-
     private final View view;
 
     public SingleItemBinder(@NonNull ViewGroup parent, @LayoutRes int layoutId) {
@@ -16,6 +15,7 @@ public class SingleItemBinder<T> implements ItemBinder<T, ItemViewHolder<T>> {
         view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
     }
 
+    @NonNull
     public final View getView() {
         return view;
     }
@@ -31,7 +31,7 @@ public class SingleItemBinder<T> implements ItemBinder<T, ItemViewHolder<T>> {
         bindView(view);
     }
 
-    protected void bindView(View view) {
+    protected void bindView(@NonNull View view) {
         //Empty
     }
 

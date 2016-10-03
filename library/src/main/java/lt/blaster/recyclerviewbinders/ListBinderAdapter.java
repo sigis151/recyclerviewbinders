@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ListBinderAdapter extends BinderAdapter {
-
     public static final int POSITION_FIRST = 0;
     private final List<ItemBinder> binderList = new ArrayList<>();
 
@@ -72,7 +71,7 @@ public class ListBinderAdapter extends BinderAdapter {
     }
 
     @Override
-    public final int getAdapterItemPosition(ItemBinder binder, int binderPosition) {
+    public final int getAdapterItemPosition(@NonNull ItemBinder binder, int binderPosition) {
         int viewType = binderList.indexOf(binder);
         if (viewType < POSITION_FIRST) {
             throw new IllegalStateException("Binder does not exist in adapter");
@@ -110,36 +109,37 @@ public class ListBinderAdapter extends BinderAdapter {
     }
 
     @Override
-    public final void notifyBinderItemRangeChanged(ItemBinder binder, int positionStart,
+    public final void notifyBinderItemRangeChanged(@NonNull ItemBinder binder, int positionStart,
                                                    int itemCount) {
         notifyItemRangeChanged(getAdapterItemPosition(binder, positionStart), itemCount);
     }
 
     @Override
-    public final void notifyBinderItemRangeInserted(ItemBinder binder, int positionStart,
+    public final void notifyBinderItemRangeInserted(@NonNull ItemBinder binder, int positionStart,
                                                     int itemCount) {
         notifyItemRangeInserted(getAdapterItemPosition(binder, positionStart), itemCount);
     }
 
     @Override
-    public final void notifyBinderItemRangeRemoved(ItemBinder binder, int positionStart,
+    public final void notifyBinderItemRangeRemoved(@NonNull ItemBinder binder, int positionStart,
                                                    int itemCount) {
         notifyItemRangeRemoved(getAdapterItemPosition(binder, positionStart), itemCount);
     }
 
+    @NonNull
     public final List<ItemBinder> getBinderList() {
         return binderList;
     }
 
-    public final void addBinder(ItemBinder binder) {
+    public final void addBinder(@NonNull ItemBinder binder) {
         binderList.add(binder);
     }
 
-    public final void addAllBinders(List<ItemBinder> dataSet) {
+    public final void addAllBinders(@NonNull List<ItemBinder> dataSet) {
         binderList.addAll(dataSet);
     }
 
-    public final void addAllBinders(ItemBinder... dataSet) {
+    public final void addAllBinders(@NonNull ItemBinder... dataSet) {
         binderList.addAll(Arrays.asList(dataSet));
     }
 }

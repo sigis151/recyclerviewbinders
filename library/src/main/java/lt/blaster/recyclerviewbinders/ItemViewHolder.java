@@ -6,7 +6,6 @@ import android.view.View;
 
 
 public class ItemViewHolder<T> extends RecyclerView.ViewHolder {
-
     private T item;
 
     public ItemViewHolder(@NonNull View itemView) {
@@ -22,9 +21,7 @@ public class ItemViewHolder<T> extends RecyclerView.ViewHolder {
         //Empty
     }
 
-    @NonNull
     public final T getItem() {
         return item;
     }
-
 }
