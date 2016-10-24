@@ -15,6 +15,31 @@ buildscript {
 group = 'lt.blaster.recyclerviewbinders'
 version = '1.0'
 
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+
+    lintOptions {
+        ignore 'GradleDependency'
+        textReport true
+        textOutput 'stdout'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
 install {
     repositories.mavenInstaller {
         pom.project {
@@ -50,6 +75,7 @@ install {
         }
     }
 }
+
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
@@ -73,31 +99,6 @@ bintray {
                 sign = true
                 passphrase = properties.containsKey('bintrayPass') ? properties['bintrayPass'] : System.getenv('BINTRAY_PASS')
             }
-        }
-    }
-}
-
-android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
-
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
-    }
-
-    lintOptions {
-        ignore 'GradleDependency'
-        textReport true
-        textOutput 'stdout'
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
