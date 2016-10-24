@@ -12,6 +12,9 @@ buildscript {
     }
 }
 
+group = 'lt.blaster.recyclerviewbinders'
+version = '1.0'
+
 install {
     repositories.mavenInstaller {
         pom.project {
@@ -55,7 +58,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = 'recycler-view-binder'
-        name = 'recyclerviewbinders'
+        name = 'lt.blaster.recyclerviewbinders'
         userOrg = 'blaster-lt'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/sigis151/recyclerviewbinders.git'
