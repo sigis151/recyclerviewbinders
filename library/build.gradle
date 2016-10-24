@@ -13,6 +13,12 @@ buildscript {
 bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
+    pkg {
+        repo = 'recycler-view-binder'
+        name = 'lt.blaster.recyclerviewbinders'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/sigis151/recyclerviewbinders.git'
+    }
 }
 
 android {
