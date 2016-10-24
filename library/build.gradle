@@ -52,17 +52,24 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 bintray {
     user = properties.containsKey('bintrayUser') ? properties['bintrayUser'] : System.getenv('BINTRAY_USER')
     key = properties.containsKey('bintrayApiKey') ? properties['bintrayApiKey'] : System.getenv('BINTRAY_KEY')
+    configurations = ['archives']
     pkg {
         repo = 'recycler-view-binder'
-        name = 'lt.blaster.recyclerviewbinders'
+        name = 'recyclerviewbinders'
+        userOrg = 'blaster-lt'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/sigis151/recyclerviewbinders.git'
+        publish = true
         version {
             name = '1.0'
             desc = 'Recycler View Binders 1.0'
             released = new Date()
             vcsTag = '1.0'
             attributes = ['gradle-plugin': 'com.android.support:recyclerview-v7:24.0.0']
+            gpg {
+                sign = true
+                passphrase = properties.containsKey('bintrayPass') ? properties['bintrayPass'] : System.getenv('BINTRAY_PASS')
+            }
         }
     }
 }
