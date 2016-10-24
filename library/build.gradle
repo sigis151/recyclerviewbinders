@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 buildscript {
     repositories {
@@ -7,12 +8,50 @@ buildscript {
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'RecyclerView Binders'
+            description 'RecyclerView item binding library'
+            url 'https://github.com/sigis151/recyclerviewbinders'
+            inceptionYear '2016'
+
+            packaging 'aar'
+            groupId 'lt.blaster.recyclerviewbinders'
+            artifactId 'library'
+            version '1.0'
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection 'https://github.com/sigis151/recyclerviewbinders.git'
+                url 'https://github.com/sigis151/recyclerviewbinders'
+            }
+            developers {
+                developer {
+                    name 'Vidmantas'
+                }
+                developer {
+                    name 'Sigitas'
+                }
+            }
+        }
+    }
+}
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_KEY')
+    user = properties.containsKey('bintrayUser') ? properties['bintrayUser'] : System.getenv('BINTRAY_USER')
+    key = properties.containsKey('bintrayApiKey') ? properties['bintrayApiKey'] : System.getenv('BINTRAY_KEY')
     pkg {
         repo = 'recycler-view-binder'
         name = 'lt.blaster.recyclerviewbinders'
