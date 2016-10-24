@@ -18,6 +18,13 @@ bintray {
         name = 'lt.blaster.recyclerviewbinders'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/sigis151/recyclerviewbinders.git'
+        version {
+            name = '1.0'
+            desc = 'Recycler View Binders 1.0'
+            released = new Date()
+            vcsTag = '1.0'
+            attributes = ['gradle-plugin': 'com.android.support:recyclerview-v7:24.0.0']
+        }
     }
 }
 
