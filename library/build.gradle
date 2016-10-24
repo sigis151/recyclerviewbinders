@@ -10,6 +10,11 @@ buildscript {
     }
 }
 
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
