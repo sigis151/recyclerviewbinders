@@ -1,4 +1,14 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
+    }
+}
 
 android {
     compileSdkVersion 24
