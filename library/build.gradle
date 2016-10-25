@@ -76,9 +76,12 @@ install {
     }
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
+    Properties properties = new Properties()
+    File propertiesFile = project.rootProject.file('local.properties')
+    if (propertiesFile.exists()) {
+        properties.load(propertiesFile.newDataInputStream())
+    }
     user = properties.containsKey('bintrayUser') ? properties['bintrayUser'] : System.getenv('BINTRAY_USER')
     key = properties.containsKey('bintrayApiKey') ? properties['bintrayApiKey'] : System.getenv('BINTRAY_KEY')
     configurations = ['archives']
