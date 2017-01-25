@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 ext.groupId = "lt.blaster.recyclerviewbinders"
-ext.versionNumber = "1.0"
+ext.versionNumber = "1.1"
 
 buildscript {
     repositories {
