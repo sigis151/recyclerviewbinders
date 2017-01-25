@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
+ext.groupId = "lt.blaster.recyclerviewbinders"
+ext.versionNumber = "1.0"
+
 buildscript {
     repositories {
         jcenter()
@@ -12,8 +15,8 @@ buildscript {
     }
 }
 
-group = 'lt.blaster.recyclerviewbinders'
-version = '1.0'
+group = "$groupId"
+version = "$versionNumber"
 
 android {
     compileSdkVersion 25
@@ -49,9 +52,9 @@ install {
             inceptionYear '2016'
 
             packaging 'aar'
-            groupId 'lt.blaster.recyclerviewbinders'
+            groupId "$groupId"
             artifactId 'library'
-            version '1.0'
+            version "$versionNumber"
 
             licenses {
                 license {
@@ -87,16 +90,16 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = 'recycler-view-binder'
-        name = 'lt.blaster.recyclerviewbinders'
+        name = "$groupId"
         userOrg = 'blaster-lt'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/sigis151/recyclerviewbinders.git'
         publish = true
         version {
-            name = '1.0'
+            name = "$versionNumber"
             desc = 'Recycler View Binders'
             released = new Date()
-            vcsTag = '1.0'
+            vcsTag = "$versionNumber"
             attributes = ['gradle-plugin': 'com.android.support:recyclerview-v7:24.0.0']
             gpg {
                 sign = true
