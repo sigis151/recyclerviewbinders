@@ -29,8 +29,9 @@ public class ListBinderAdapter extends BinderAdapter {
             int binderSize = binder.getItemCount();
             for (int i = 0; i < binderSize; i++) {
                 itemCount++;
+                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
                 if (position == itemCount - 1) {
-                    return binder.getItemViewType(i) - binderPosition;
+                    return binderViewType;
                 }
             }
         }
@@ -52,13 +53,21 @@ public class ListBinderAdapter extends BinderAdapter {
             ItemBinder binder = binderList.get(binderPosition);
             int binderSize = binder.getItemCount();
             for (int i = 0; i < binderSize; i++) {
-                int binderViewType = binder.getItemViewType(i);
-                if (binderViewType - binderPosition == viewType) {
+                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
+                if (binderViewType == viewType) {
                     return (T) binder;
                 }
             }
         }
         throw new IllegalArgumentException("No binder assigned to viewType: " + viewType);
+    }
+
+    private int getNormalizedBinderViewType(int binderPosition, ItemBinder binder, int position) {
+        int binderViewType = binder.getItemViewType(position);
+        if (binderViewType == ItemBinder.DEFAULT_VIEW_TYPE) {
+            binderViewType -= binderPosition;
+        }
+        return binderViewType;
     }
 
     @SuppressWarnings("unchecked")
