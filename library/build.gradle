@@ -1,12 +1,30 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext.groupId = "lt.blaster.recyclerviewbinders"
+ext.versionNumber = "1.0"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    }
+}
+
+group = "$groupId"
+version = "$versionNumber"
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 25
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -25,8 +43,74 @@ android {
     }
 }
 
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'RecyclerView Binders'
+            description 'RecyclerView item binding library'
+            url 'https://github.com/sigis151/recyclerviewbinders'
+            inceptionYear '2016'
+
+            packaging 'aar'
+            groupId "$groupId"
+            artifactId 'library'
+            version "$versionNumber"
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection 'https://github.com/sigis151/recyclerviewbinders.git'
+                url 'https://github.com/sigis151/recyclerviewbinders'
+            }
+            developers {
+                developer {
+                    name 'Vidmantas'
+                }
+                developer {
+                    name 'Sigitas'
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    Properties properties = new Properties()
+    File propertiesFile = project.rootProject.file('local.properties')
+    if (propertiesFile.exists()) {
+        properties.load(propertiesFile.newDataInputStream())
+    }
+    user = properties.containsKey('bintrayUser') ? properties['bintrayUser'] : System.getenv('BINTRAY_USER')
+    key = properties.containsKey('bintrayApiKey') ? properties['bintrayApiKey'] : System.getenv('BINTRAY_KEY')
+    configurations = ['archives']
+    pkg {
+        repo = 'recycler-view-binder'
+        name = "$groupId"
+        userOrg = 'blaster-lt'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/sigis151/recyclerviewbinders.git'
+        publish = true
+        version {
+            name = "$versionNumber"
+            desc = 'Recycler View Binders'
+            released = new Date()
+            vcsTag = "$versionNumber"
+            attributes = ['gradle-plugin': 'com.android.support:recyclerview-v7:24.0.0']
+            gpg {
+                sign = true
+                passphrase = properties.containsKey('bintrayPass') ? properties['bintrayPass'] : System.getenv('BINTRAY_PASS')
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile "com.android.support:recyclerview-v7:24.0.0"
+    compile "com.android.support:recyclerview-v7:25.1.0"
 }
