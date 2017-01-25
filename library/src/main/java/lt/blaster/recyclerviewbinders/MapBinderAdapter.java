@@ -50,6 +50,11 @@ public abstract class MapBinderAdapter extends BinderAdapter {
     }
 
     @Override
+    protected <T extends ItemBinder> T getDataBinder(int viewType, int adapterPosition) {
+        return getDataBinder(viewType);
+    }
+
+    @Override
     public final int getAdapterItemPosition(@NonNull ItemBinder binder, int binderPosition) {
         int position = binderPosition;
         int targetViewType = getBinderViewType(binder);
