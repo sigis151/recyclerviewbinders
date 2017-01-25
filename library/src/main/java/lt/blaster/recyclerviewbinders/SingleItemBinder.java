@@ -22,13 +22,18 @@ public class SingleItemBinder<T> implements ItemBinder<T, ItemViewHolder<T>> {
 
     @NonNull
     @Override
-    public final ItemViewHolder<T> newViewHolder(@NonNull ViewGroup parent) {
+    public final ItemViewHolder<T> newViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItemViewHolder<>(view);
     }
 
     @Override
     public final void bindViewHolder(@NonNull ItemViewHolder<T> holder, int position) {
         bindView(view);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return DEFAULT_VIEW_TYPE;
     }
 
     protected void bindView(@NonNull View view) {

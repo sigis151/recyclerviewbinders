@@ -8,7 +8,7 @@ public abstract class BinderAdapter extends RecyclerView.Adapter<ItemViewHolder>
     @NonNull
     @Override
     public final ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return getDataBinder(viewType).newViewHolder(parent);
+        return getDataBinder(viewType).newViewHolder(parent, viewType);
     }
 
     @Override

@@ -24,13 +24,17 @@ public class ListBinderAdapter extends BinderAdapter {
     @Override
     public final int getItemViewType(int position) {
         int itemCount = 0;
-        for (int viewType = 0; viewType < binderList.size(); viewType++) {
-            itemCount += binderList.get(viewType).getItemCount();
-            if (position < itemCount) {
-                return viewType;
+        for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
+            ItemBinder binder = binderList.get(binderPosition);
+            int binderSize = binder.getItemCount();
+            for (int i = 0; i < binderSize; i++) {
+                itemCount++;
+                if (position == itemCount - 1) {
+                    return binder.getItemViewType(i) - binderPosition;
+                }
             }
         }
-        throw new IllegalArgumentException("Argument's position is invalid");
+        throw new IllegalArgumentException("No binder assigned to position: " + position);
     }
 
     @Override
@@ -44,7 +48,17 @@ public class ListBinderAdapter extends BinderAdapter {
     @Override
     @SuppressWarnings("unchecked")
     public final <T extends ItemBinder> T getDataBinder(int viewType) {
-        return (T) binderList.get(viewType);
+        for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
+            ItemBinder binder = binderList.get(binderPosition);
+            int binderSize = binder.getItemCount();
+            for (int i = 0; i < binderSize; i++) {
+                int binderViewType = binder.getItemViewType(i);
+                if (binderViewType - binderPosition == viewType) {
+                    return (T) binder;
+                }
+            }
+        }
+        throw new IllegalArgumentException("No binder assigned to viewType: " + viewType);
     }
 
     @SuppressWarnings("unchecked")
