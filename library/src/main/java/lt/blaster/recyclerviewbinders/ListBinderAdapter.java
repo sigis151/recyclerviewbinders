@@ -24,13 +24,18 @@ public class ListBinderAdapter extends BinderAdapter {
     @Override
     public final int getItemViewType(int position) {
         int itemCount = 0;
-        for (int viewType = 0; viewType < binderList.size(); viewType++) {
-            itemCount += binderList.get(viewType).getItemCount();
-            if (position < itemCount) {
-                return viewType;
+        for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
+            ItemBinder binder = binderList.get(binderPosition);
+            int binderSize = binder.getItemCount();
+            for (int i = 0; i < binderSize; i++) {
+                itemCount++;
+                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
+                if (position == itemCount - 1) {
+                    return binderViewType;
+                }
             }
         }
-        throw new IllegalArgumentException("Argument's position is invalid");
+        throw new IllegalArgumentException("No binder assigned to position: " + position);
     }
 
     @Override
@@ -44,7 +49,25 @@ public class ListBinderAdapter extends BinderAdapter {
     @Override
     @SuppressWarnings("unchecked")
     public final <T extends ItemBinder> T getDataBinder(int viewType) {
-        return (T) binderList.get(viewType);
+        for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
+            ItemBinder binder = binderList.get(binderPosition);
+            int binderSize = binder.getItemCount();
+            for (int i = 0; i < binderSize; i++) {
+                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
+                if (binderViewType == viewType) {
+                    return (T) binder;
+                }
+            }
+        }
+        throw new IllegalArgumentException("No binder assigned to viewType: " + viewType);
+    }
+
+    private int getNormalizedBinderViewType(int binderPosition, ItemBinder binder, int position) {
+        int binderViewType = binder.getItemViewType(position);
+        if (binderViewType == ItemBinder.DEFAULT_VIEW_TYPE) {
+            binderViewType -= binderPosition;
+        }
+        return binderViewType;
     }
 
     @SuppressWarnings("unchecked")

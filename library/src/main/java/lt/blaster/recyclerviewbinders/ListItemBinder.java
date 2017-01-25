@@ -23,6 +23,11 @@ public abstract class ListItemBinder<T, V extends ItemViewHolder<T>>
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return DEFAULT_VIEW_TYPE;
+    }
+
+    @Override
     public long getItemId(int position) {
         return RecyclerView.NO_ID;
     }
