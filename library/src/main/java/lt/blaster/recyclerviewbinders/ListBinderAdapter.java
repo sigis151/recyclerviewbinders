@@ -34,12 +34,14 @@ public class ListBinderAdapter extends BinderAdapter {
         for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
             ItemBinder binder = binderList.get(binderPosition);
             int binderSize = binder.getItemCount();
-            for (int i = 0; i < binderSize; i++) {
-                itemCount++;
-                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
-                if (position == itemCount - 1) {
-                    typeBinderMap.put(binderViewType, binderPosition);
-                    return binderViewType;
+            if (position >= binderSize - 1) {
+                for (int i = 0; i < binderSize; i++) {
+                    itemCount++;
+                    int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
+                    if (position == itemCount - 1) {
+                        typeBinderMap.put(binderViewType, binderPosition);
+                        return binderViewType;
+                    }
                 }
             }
         }
