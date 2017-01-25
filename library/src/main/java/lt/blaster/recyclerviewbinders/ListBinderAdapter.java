@@ -7,10 +7,13 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ListBinderAdapter extends BinderAdapter {
     public static final int POSITION_FIRST = 0;
     private final List<ItemBinder> binderList = new ArrayList<>();
+    private final Map<Integer, Integer> typeBinderMap = new ConcurrentHashMap<>();
 
     @Override
     public final int getItemCount() {
@@ -23,6 +26,10 @@ public class ListBinderAdapter extends BinderAdapter {
 
     @Override
     public final int getItemViewType(int position) {
+        return generateItemViewType(position);
+    }
+
+    private Integer generateItemViewType(int position) {
         int itemCount = 0;
         for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
             ItemBinder binder = binderList.get(binderPosition);
@@ -31,6 +38,7 @@ public class ListBinderAdapter extends BinderAdapter {
                 itemCount++;
                 int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
                 if (position == itemCount - 1) {
+                    typeBinderMap.put(binderViewType, binderPosition);
                     return binderViewType;
                 }
             }
@@ -49,17 +57,7 @@ public class ListBinderAdapter extends BinderAdapter {
     @Override
     @SuppressWarnings("unchecked")
     public final <T extends ItemBinder> T getDataBinder(int viewType) {
-        for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
-            ItemBinder binder = binderList.get(binderPosition);
-            int binderSize = binder.getItemCount();
-            for (int i = 0; i < binderSize; i++) {
-                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
-                if (binderViewType == viewType) {
-                    return (T) binder;
-                }
-            }
-        }
-        throw new IllegalArgumentException("No binder assigned to viewType: " + viewType);
+        return (T) binderList.get(typeBinderMap.get(viewType));
     }
 
     private int getNormalizedBinderViewType(int binderPosition, ItemBinder binder, int position) {

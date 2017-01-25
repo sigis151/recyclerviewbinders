@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     private final List<String> thirdBinderItems = Arrays.asList(
             "binder 3 : item 1", "binder 3 : item 2",
             "binder 3 : item 3", "binder 3 : item 4");
+    private final List<String> fourthBinderItems = Arrays.asList(
+            "binder 4 : item 1", "binder 4 : item 2",
+            "binder 4 : item 3", "binder 4 : item 4");
     private ListBinderAdapter adapter;
 
     @Override
@@ -56,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         MultiViewTypeItemBinder firstBinder = new MultiViewTypeItemBinder(adapter, this);
         adapter.addBinder(firstBinder);
         firstBinder.setItems(thirdBinderItems);
+
+        MultiViewTypeItemBinder secondBinder = new MultiViewTypeItemBinder(adapter, this);
+        adapter.addBinder(secondBinder);
+        secondBinder.setItems(fourthBinderItems);
     }
 
     @Override
