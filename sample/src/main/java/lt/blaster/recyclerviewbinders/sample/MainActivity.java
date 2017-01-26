@@ -84,10 +84,6 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
     @Override
     public void onRefresh() {
-        firstBinder.removeItems(0, firstBinder.getItemCount());
-        secondBinder.removeItems(0, secondBinder.getItemCount());
-        thirdBinder.removeItems(0, thirdBinder.getItemCount());
-        fourthBinder.removeItems(0, fourthBinder.getItemCount());
         firstBinder.setItems(firstBinderItems);
         secondBinder.setItems(secondBinderItems);
         thirdBinder.setItems(thirdBinderItems);

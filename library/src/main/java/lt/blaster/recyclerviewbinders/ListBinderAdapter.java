@@ -16,9 +16,18 @@ public class ListBinderAdapter extends BinderAdapter {
     private final List<ItemBinder> binderList = new ArrayList<>();
     private final Map<Integer, Pair<Integer, Integer>> positionMap = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> typeBinderMap = new ConcurrentHashMap<>();
+    private final LocalAdapterDataObserver dataObserver;
 
     public ListBinderAdapter() {
-        registerAdapterDataObserver(new LocalAdapterDataObserver());
+        dataObserver = new LocalAdapterDataObserver();
+        registerAdapterDataObserver(dataObserver);
+    }
+
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        unregisterAdapterDataObserver(dataObserver);
+        super.setHasStableIds(hasStableIds);
+        registerAdapterDataObserver(dataObserver);
     }
 
     @Override
