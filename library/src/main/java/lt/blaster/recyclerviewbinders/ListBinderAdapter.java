@@ -1,16 +1,34 @@
 package lt.blaster.recyclerviewbinders;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ListBinderAdapter extends BinderAdapter {
     public static final int POSITION_FIRST = 0;
     private final List<ItemBinder> binderList = new ArrayList<>();
+    private final Map<Integer, Pair<Integer, Integer>> positionMap = new ConcurrentHashMap<>();
+    private final Map<Integer, Integer> typeBinderMap = new ConcurrentHashMap<>();
+    private final LocalAdapterDataObserver dataObserver;
+
+    public ListBinderAdapter() {
+        dataObserver = new LocalAdapterDataObserver();
+        registerAdapterDataObserver(dataObserver);
+    }
+
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        unregisterAdapterDataObserver(dataObserver);
+        super.setHasStableIds(hasStableIds);
+        registerAdapterDataObserver(dataObserver);
+    }
 
     @Override
     public final int getItemCount() {
@@ -23,16 +41,29 @@ public class ListBinderAdapter extends BinderAdapter {
 
     @Override
     public final int getItemViewType(int position) {
+        if (positionMap.containsKey(position)) {
+            return positionMap.get(position).second;
+        }
+        return generateItemViewType(position);
+    }
+
+    private Integer generateItemViewType(int position) {
         int itemCount = 0;
         for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
             ItemBinder binder = binderList.get(binderPosition);
-            int binderSize = binder.getItemCount();
-            for (int i = 0; i < binderSize; i++) {
-                itemCount++;
-                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
-                if (position == itemCount - 1) {
-                    return binderViewType;
+            int currentSize = binder.getItemCount();
+            if (position < currentSize + itemCount) {
+                for (int i = 0; i < currentSize; i++) {
+                    itemCount++;
+                    int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
+                    if (position == itemCount - 1) {
+                        positionMap.put(position, new Pair<>(binderPosition, binderViewType));
+                        typeBinderMap.put(binderViewType, binderPosition);
+                        return binderViewType;
+                    }
                 }
+            } else {
+                itemCount += currentSize;
             }
         }
         throw new IllegalArgumentException("No binder assigned to position: " + position);
@@ -49,17 +80,13 @@ public class ListBinderAdapter extends BinderAdapter {
     @Override
     @SuppressWarnings("unchecked")
     public final <T extends ItemBinder> T getDataBinder(int viewType) {
-        for (int binderPosition = 0; binderPosition < binderList.size(); binderPosition++) {
-            ItemBinder binder = binderList.get(binderPosition);
-            int binderSize = binder.getItemCount();
-            for (int i = 0; i < binderSize; i++) {
-                int binderViewType = getNormalizedBinderViewType(binderPosition, binder, i);
-                if (binderViewType == viewType) {
-                    return (T) binder;
-                }
-            }
-        }
-        throw new IllegalArgumentException("No binder assigned to viewType: " + viewType);
+        return (T) binderList.get(typeBinderMap.get(viewType));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T extends ItemBinder> T getDataBinder(int viewType, int adapterPosition) {
+        return (T) binderList.get(positionMap.get(adapterPosition).first);
     }
 
     private int getNormalizedBinderViewType(int binderPosition, ItemBinder binder, int position) {
@@ -164,5 +191,14 @@ public class ListBinderAdapter extends BinderAdapter {
 
     public final void addAllBinders(@NonNull ItemBinder... dataSet) {
         binderList.addAll(Arrays.asList(dataSet));
+    }
+
+    private class LocalAdapterDataObserver extends RecyclerView.AdapterDataObserver {
+        @Override
+        public void onChanged() {
+            for (int i = 0; i < getItemCount(); i++) {
+                generateItemViewType(i);
+            }
+        }
     }
 }

@@ -15,7 +15,8 @@ public abstract class BinderAdapter extends RecyclerView.Adapter<ItemViewHolder>
     @SuppressWarnings("unchecked")
     public final void onBindViewHolder(@NonNull ItemViewHolder viewHolder, int adapterPosition) {
         int binderPosition = getBinderItemPosition(adapterPosition);
-        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, binderPosition);
+        getDataBinder(viewHolder.getItemViewType(), adapterPosition)
+                .bindViewHolder(viewHolder, binderPosition);
     }
 
     @Override
@@ -25,6 +26,8 @@ public abstract class BinderAdapter extends RecyclerView.Adapter<ItemViewHolder>
     public abstract int getItemViewType(int adapterPosition);
 
     public abstract <T extends ItemBinder> T getDataBinder(int viewType);
+
+    protected abstract <T extends ItemBinder> T getDataBinder(int viewType, int adapterPosition);
 
     public abstract int getAdapterItemPosition(@NonNull ItemBinder binder, int binderPosition);
 
